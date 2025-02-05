@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tipos de energía solar</title>
+    <link rel="stylesheet" href="./estilo_Calculadora.css">
+</head>
+
+<body>
+    <header class="main-header">
+        <div class="logo">
+            <a href="http://127.0.0.1:5500/Pagina%20web/index.html"><img src="./Imagenes/Logo SOLTECH.png" alt="Logo"></a>
+        </div>
+        <nav class="menu">
+            <ul>
+                <li><a href="EnergiasLimpias.html">Energías limpias</a></li>
+                
+                <li class="submenu">
+                    <a href="#">Energía Solar</a>
+                    <ul class="submenu-content">
+                        <li><a href="Que_es.html">¿Qué es la Energía Solar?</a></li>
+                        <li><a href="Tipos_De_Energia_Solar.html">Tipos de Energía Solar</a></li>
+                        <li><a href="Ventajas_y_Desventajas.html">Ventajas y desventajas</a></li>
+                    </ul>
+                </li>  
+        
+                <li class="submenu">
+                    <a href="#">Dashboard</a>
+                    <ul class="submenu-content">
+                        <li><a href="graficaABLT.2.html">Gráficos</a></li>
+                        <li><a href="Tabla.html">Tabla</a></li>
+                        <li><a href="Calculadora.html">Calculadora</a></li>
+                    </ul>
+                </li>            
+        
+                <li><a href="Contacto.html">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    
+
+    <section>
+        <h1>¡Calcula tu energía!</h1>
+            <div class="espacioCalculadora">
+                <h3>Calculadora de Consumo Energético</h3>
+                     <!-- Explicación para el usuario -->
+                    <p>Esta calculadora te ayudará a estimar tu consumo energético anual en Teravatios-hora (TWh) y a entender qué porcentaje representa respecto a un valor de referencia.</p>
+                    
+                    <!-- Campo para ingresar el consumo mensual -->
+                    <label for="consumoMensual">Consumo mensual (kWh):</label>
+                    <input type="number" id="consumoMensual" placeholder="Ingrese el consumo mensual en kWh">
+                    <p><small>Por ejemplo, si tu factura de luz indica que consumes 300 kWh al mes, ingresa "300" en este campo.</small></p>
+                    
+                    <!-- Botón para realizar el cálculo -->
+                    <button onclick="calcular()">Calcular</button>
+                    <p><small>Haz clic en "Calcular" para obtener los resultados.</small></p>
+                    
+                    <!-- Sección para mostrar los resultados -->
+                    <div class="result">
+                        <p>Consumo anual en TWh: <span id="resultadoTWh"></span></p>
+                        <p><small>Este valor representa tu consumo anual convertido a Teravatios-hora (TWh). 1 TWh = 1,000,000,000 kWh.</small></p>
+                        
+                        <p>Porcentaje en TWh: <span id="resultadoPorcentaje"></span>%</p>
+                        <p><small>Este porcentaje indica cuánto representa tu consumo anual respecto a un valor de referencia (por ejemplo, el consumo total de un país).</small></p>
+                    </div>
+                </div>
+            <script src="Estructura.js"></script>
+    </section>
+
+
+    </body>
+</html>

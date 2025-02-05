@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacto</title>
+    
+    <link rel="stylesheet" href="./estilo_Contacto.css">
+</head>
+<body>
+    <header class="main-header">
+        <div class="logo">
+            <a href="http://127.0.0.1:5500/Pagina%20web/index.html"><img src="./Imagenes/Logo SOLTECH.png" alt="Logo"></a>
+        </div>
+        <nav class="menu">
+            <ul>
+                <li><a href="EnergiasLimpias.html">Energías limpias</a></li>
+                
+                <li class="submenu">
+                    <a href="#">Energía Solar</a>
+                    <ul class="submenu-content">
+                        <li><a href="Que_es.html">¿Qué es la Energía Solar?</a></li>
+                        <li><a href="Tipos_De_Energia_Solar.html">Tipos de Energía Solar</a></li>
+                        <li><a href="Ventajas_y_Desventajas.html">Ventajas y desventajas</a></li>
+                    </ul>
+                </li>  
+        
+                <li class="submenu">
+                    <a href="#">Dashboard</a>
+                    <ul class="submenu-content">
+                        <li><a href="graficaABLT.2.html">Gráficos</a></li>
+                        <li><a href="Tabla.html">Tabla</a></li>
+                        <li><a href="Calculadora.html">Calculadora</a></li>
+                    </ul>
+                </li>            
+        
+                <li><a href="Contacto.html">Contacto</a></li>
+            </ul>
+        </nav>
+        
+    </header>
+
+        <section id="formulario"></section>
+        <form action="/submit-form" method="post">
+            <fieldset>
+                <legend>Formulario de contacto</legend>
+         
+                <label for="nombre">Nombre:</label>
+                <input type="texto" id="nombre" name="name" required>
+                <br>
+        
+                <label for="correo">Correo Electronico:</label>
+                <input type="correo" id="correo" required>
+                <br>
+        
+                <label for="razon">Motivo del Contacto:</label>
+                <select id="razon" name="razon" required>
+                    <option value="inquietud">Consultar</option>
+                    <option value="retroali">Sugerencia</option>
+                    <option value="queja">Queja</option>
+                </select>
+                <br>
+        
+                <label for="mensaje">Mensaje:</label>
+                <textarea id="mensaje" name="mensaje" rows="5" cols="40" required></textarea>
+                <br>
+        
+                <button type="enviar">Enviar</button>
+            
+            </fieldset>
+        
+        </form>
+    </body>   
+
+    <footer>
+        <p>&copy: 2025 SOL TECH. Todos los derechos reservados</p>
+    </footer>   
+            
+</html>
+
+<!DOCTYPE html>
+
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Contacto</title>
+    <link rel="stylesheet" href="estiloFormulario.css">
+
+    </head>
+    
+    <body>
+        <nav>
+            <a href="/Pagina/pagina.html">HOME</a> |
+            
+        
+    </body>
+</html>

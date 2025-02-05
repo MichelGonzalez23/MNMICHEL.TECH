@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tipos de energía solar</title>
+    <link rel="stylesheet" href="./estilo_Tabla.css">
+</head>
+<body>
+    <header class="main-header">
+        <div class="logo">
+            <a href="http://127.0.0.1:5500/Pagina%20web/index.html"><img src="./Imagenes/Logo SOLTECH.png" alt="Logo"></a>
+        </div>
+        <nav class="menu">
+            <ul>
+                <li><a href="EnergiasLimpias.html">Energías limpias</a></li>
+                
+                <li class="submenu">
+                    <a href="#">Energía Solar</a>
+                    <ul class="submenu-content">
+                        <li><a href="Que_es.html">¿Qué es la Energía Solar?</a></li>
+                        <li><a href="Tipos_De_Energia_Solar.html">Tipos de Energía Solar</a></li>
+                        <li><a href="Ventajas_y_Desventajas.html">Ventajas y desventajas</a></li>
+                    </ul>
+                </li>  
+        
+                <li class="submenu">
+                    <a href="#">Dashboard</a>
+                    <ul class="submenu-content">
+                        <li><a href="graficaABLT.2.html">Gráficos</a></li>
+                        <li><a href="Tabla.html">Tabla</a></li>
+                        <li><a href="Calculadora.html">Calculadora</a></li>
+                    </ul>
+                </li>            
+        
+                <li><a href="Contacto.html">Contacto</a></li>
+            </ul>
+        </nav>
+        
+    </header>
+
+    
+    <h2>Tabla de Datos Globales</h2>
+
+    <label for="paisSelect">Selecciona un país:</label>
+    <select id="paisSelect" onchange="filtrarDatos()">
+        <option value="">Selecciona un país</option>
+    </select>
+
+    <label for="anoInicio">Año de inicio:</label>
+    <input type="number" id="anoInicio" min="2000" onchange="filtrarDatos()" placeholder="Año de inicio">
+
+    <label for="anoFin">Año de fin:</label>
+    <input type="number" id="anoFin" min="2000" onchange="filtrarDatos()" placeholder="Año de fin">
+
+    <button onclick="cargarArchivo('Datos para la tabla/datosTabla.csv')">Cargar Archivo</button>
+
+    <div class="tabla-container">
+        <table id="tabla">
+            <thead>
+                <tr>
+                    <th>País</th>
+                    <th>Año</th>
+                    <th>TWh</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <script>
+        let datosGlobales = [];
+        let paisesUnicos = [];
+
+        function cargarArchivo(ruta) {
+            fetch(ruta)
+                .then(response => response.text())
+                .then(data => procesarCSV(data))
+                .catch(error => console.error("Error al cargar el archivo:", error));
+        }
+
+        function procesarCSV(contenido) {
+            const lineas = contenido.split("\n");
+            const datos = lineas.map(linea => {
+                const columnas = linea.split(",");
+                return {
+                    pais: columnas[0],
+                    ano: columnas[2],
+                    khw: columnas[3]
+                };
+            }).filter(dato => dato.pais && dato.ano && dato.khw);
+
+            datosGlobales = datos;
+            paisesUnicos = [...new Set(datos.map(d => d.pais))];
+            generarMenuPaises();
+            cargarDatos(datosGlobales);
+        }
+
+        function generarMenuPaises() {
+            const select = document.getElementById("paisSelect");
+            select.innerHTML = '<option value="">Selecciona un país</option>';
+            paisesUnicos.forEach(pais => {
+                const option = document.createElement("option");
+                option.value = pais;
+                option.textContent = pais;
+                select.appendChild(option);
+            });
+        }
+
+        function cargarDatos(datos) {
+            const tabla = document.getElementById("tabla").getElementsByTagName("tbody")[0];
+            tabla.innerHTML = "";
+            datos.forEach(dato => {
+                const fila = document.createElement("tr");
+                fila.innerHTML = `<td>${dato.pais}</td><td>${dato.ano}</td><td>${dato.khw}</td>`;
+                tabla.appendChild(fila);
+            });
+        }
+
+        function filtrarDatos() {
+            const paisSeleccionado = document.getElementById("paisSelect").value;
+            const anoInicio = parseInt(document.getElementById("anoInicio").value) || 0;
+            const anoFin = parseInt(document.getElementById("anoFin").value) || 9999;
+
+            let datosFiltrados = datosGlobales;
+
+            if (paisSeleccionado) {
+                datosFiltrados = datosFiltrados.filter(d => d.pais === paisSeleccionado);
+            }
+
+            datosFiltrados = datosFiltrados.filter(d => {
+                const ano = parseInt(d.ano);
+                return ano >= anoInicio && ano <= anoFin;
+            });
+
+            cargarDatos(datosFiltrados);
+        }
+    </script>
+    
+        
+
+</body>
+</html>

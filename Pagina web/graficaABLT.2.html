@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gráfico de Área</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <link rel="stylesheet" href="./estilo_Graficos.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        
+</head>
+<body>
+    <header class="main-header">
+        <div class="logo">
+            <a href="http://127.0.0.1:5500/Pagina%20web/index.html"><img src="./Imagenes/Logo SOLTECH.png" alt="Logo"></a>
+        </div>
+        <nav class="menu">
+            <ul>
+                <li><a href="EnergiasLimpias.html">Energías limpias</a></li>
+                
+                <li class="submenu">
+                    <a href="#">Energía Solar</a>
+                    <ul class="submenu-content">
+                        <li><a href="Que_es.html">¿Qué es la Energía Solar?</a></li>
+                        <li><a href="Tipos_De_Energia_Solar.html">Tipos de Energía Solar</a></li>
+                        <li><a href="Ventajas_y_Desventajas.html">Ventajas y desventajas</a></li>
+                    </ul>
+                </li>  
+        
+                <li class="submenu">
+                    <a href="#">Dashboard</a>
+                    <ul class="submenu-content">
+                        <li><a href="graficaABLT.2.html">Gráficos</a></li>
+                        <li><a href="Tabla.html">Tabla</a></li>
+                        <li><a href="Calculadora.html">Calculadora</a></li>
+                    </ul>
+                </li>            
+        
+                <li><a href="Contacto.html">Contacto</a></li>
+            </ul>
+        </nav>
+        
+    </header>
+
+        <br>
+        <h2>Graficas de datos globales</h2>
+        <h1>Estas graficas te ayudaran a conocer el consumo en TWh por año de cada diferentes paises.</h1><br>
+        <h4>Para usar dichas graficas primero darás click en el botón de cargar grafica, seguido de estos podras seleccionar el pais del cual deseas ver la informacion</h4>
+    
+        <div class="container">
+            <h2>Gráfico de Área Datos Globales</h2>
+            <button onclick="cargarCSV()">Cargar Gráfica</button>
+            <label for="paisSelect">Selecciona un país:</label>
+            <select id="paisSelect" onchange="actualizarGrafico()">
+                <option value="">Selecciona un país</option>
+            </select>
+            <canvas id="graficoArea"></canvas>
+        </div>
+
+        <script>
+            let datosCSV = [];
+            let paisesUnicos = [];
+            let chartInstance = null;
+
+            function procesarCSV(datos) {
+                const filas = datos.split('\n');
+                const datosProcesados = [];
+                filas.forEach((fila, index) => {
+                    if (index === 0) return;
+                    const columnas = fila.split(',');
+                    if (columnas.length === 4) {
+                        datosProcesados.push({
+                            pais: columnas[0],
+                            codigo: columnas[1],
+                            año: columnas[2],
+                            consumo: parseFloat(columnas[3])
+                        });
+                    }
+                });
+                return datosProcesados;
+            }
+
+            function generarMenuPaises() {
+                const select = document.getElementById('paisSelect');
+                select.innerHTML = '<option value="">Selecciona un país</option>';
+                paisesUnicos.forEach(pais => {
+                    const option = document.createElement('option');
+                    option.value = pais;
+                    option.textContent = pais;
+                    select.appendChild(option);
+                });
+            }
+
+            function crearGrafico(paisSeleccionado) {
+                const datosPais = datosCSV.filter(d => d.pais === paisSeleccionado).sort((a, b) => a.año - b.año);
+
+                if (datosPais.length === 0) {
+                    alert('No hay datos para el país seleccionado');
+                    return;
+                }
+
+                const años = datosPais.map(d => d.año);
+                const incrementos = [];
+                const acumulados = [];
+
+                let acumulado = 0;
+                datosPais.forEach((d, index) => {
+                    const incremento = index === 0 ? d.consumo : d.consumo - datosPais[index - 1].consumo;
+                    incrementos.push(incremento);
+                    acumulado += incremento;
+                    acumulados.push(acumulado - incremento);
+                });
+
+                if (chartInstance) {
+                    chartInstance.destroy();
+                }
+
+                const ctx = document.getElementById('graficoArea').getContext('2d');
+                chartInstance = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: años,
+                        datasets: [{
+                            label: 'Incremento',
+                            data: incrementos,
+                            backgroundColor: 'rgba(255, 223, 102, 0.5)', /* Amarillo claro */
+                            borderColor: '#d4a017', /* Amarillo oscuro */
+                            fill: true,
+                            borderWidth: 2,
+                            tension: 0.3
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                                labels: { color: '#d4a017', font: { size: 14 } }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                title: { display: true, text: 'Año', color: '#d4a017' },
+                                ticks: { color: '#666' }
+                            },
+                            y: {
+                                title: { display: true, text: 'Consumo (TWh)', color: '#d4a017' },
+                                beginAtZero: true,
+                                ticks: { color: '#666' }
+                            }
+                        }
+                    }
+                });
+            }
+
+            function cargarCSV() {
+                fetch('graficoArea.csv')
+                    .then(response => response.text())
+                    .then(datosTexto => {
+                        datosCSV = procesarCSV(datosTexto);
+                        paisesUnicos = [...new Set(datosCSV.map(d => d.pais))];
+                        generarMenuPaises();
+                    })
+                    .catch(error => {
+                        console.error('Error al cargar el archivo CSV:', error);
+                        alert('Hubo un error al cargar el archivo CSV.');
+                    });
+            }
+
+            function actualizarGrafico() {
+                const paisSeleccionado = document.getElementById('paisSelect').value;
+                if (paisSeleccionado) {
+                    crearGrafico(paisSeleccionado);
+                }
+            }
+        </script>
+
+        <div class="container">
+            <h2>Gráfico de Barras Datos Globales</h2>
+            <button onclick="cargarCSV2()">Cargar Gráfica</button>
+            <label for="paisSelect2">Selecciona un país:</label>
+            <select id="paisSelect2" onchange="actualizarGrafico2()">
+                <option value="">Selecciona un país</option>
+            </select>
+            <canvas id="graficoBarras2"></canvas>
+        </div>
+
+        <script>
+            let datosCSV2 = [];
+            let paisesUnicos2 = [];
+            let chartInstance2 = null;
+
+            function procesarCSV2(datos2) {
+                const filas2 = datos2.split('\n');
+                const datosProcesados2 = [];
+
+                filas2.forEach((fila2, index2) => {
+                    if (index2 === 0) return;
+                    const columnas2 = fila2.split(',');
+                    if (columnas2.length === 4) {
+                        datosProcesados2.push({
+                            pais: columnas2[0],
+                            codigo: columnas2[1],
+                            año: columnas2[2],
+                            consumo: parseFloat(columnas2[3])
+                        });
+                    }
+                });
+                return datosProcesados2;
+            }
+
+            function generarMenuPaises2() {
+                const select = document.getElementById('paisSelect2');
+                select.innerHTML = '<option value="">Selecciona un país</option>';
+
+                paisesUnicos2.forEach(pais2 => {
+                    const option = document.createElement('option');
+                    option.value = pais2;
+                    option.textContent = pais2;
+                    select.appendChild(option);
+                });
+            }
+
+            function crearGrafico2(paisSeleccionado2) {
+                const datosPais2 = datosCSV2.filter(d => d.pais === paisSeleccionado2).sort((a, b) => a.año - b.año);
+
+                if (datosPais2.length === 0) {
+                    alert('No hay datos para el país seleccionado');
+                    return;
+                }
+
+                const años2 = datosPais2.map(d => d.año);
+                const consumos2 = datosPais2.map(d => d.consumo);
+
+                if (chartInstance2) {
+                    chartInstance2.destroy();
+                }
+
+                const ctx2 = document.getElementById('graficoBarras2').getContext('2d');
+                chartInstance2 = new Chart(ctx2, {
+                    type: 'bar',
+                    data: {
+                        labels: años2,
+                        datasets: [
+                            {
+                                label: 'Consumo',
+                                data: consumos2,
+                                backgroundColor: 'rgba(129, 199, 132, 0.6)', /* Verde claro */
+                                borderColor: 'rgba(56, 142, 60, 1)', /* Verde un poco más oscuro */
+                                borderWidth: 1,
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                                labels: { font: { size: 12 }, color: '#2e7d32' }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                title: { display: true, text: 'Año', color: '#2e7d32' }
+                            },
+                            y: {
+                                title: { display: true, text: 'Consumo (TWh)', color: '#2e7d32' },
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            }
+
+            function cargarCSV2() {
+                fetch('graficoBarra.csv')
+                    .then(response => response.text())
+                    .then(datosTexto => {
+                        datosCSV2 = procesarCSV2(datosTexto);
+                        paisesUnicos2 = [...new Set(datosCSV2.map(d => d.pais))];
+                        generarMenuPaises2();
+                    })
+                    .catch(error => {
+                        console.error('Error al cargar el archivo CSV:', error);
+                        alert('Hubo un error al cargar el archivo CSV.');
+                    });
+            }
+
+            function actualizarGrafico2() {
+                const paisSeleccionado2 = document.getElementById('paisSelect2').value;
+                if (paisSeleccionado2) {
+                    crearGrafico2(paisSeleccionado2);
+                }
+            }
+        </script>
+
+        <div class="container">
+            <h2>Gráfico de Línea Datos Globales</h2>
+            <button onclick="cargarCSV3()">Cargar Gráfica</button>
+            <label for="paisSelect3">Selecciona un país:</label>
+            <select id="paisSelect3" onchange="actualizarGrafico3()">
+                <option value="">Selecciona un país</option>
+            </select>
+            <canvas id="graficoLinea3"></canvas>
+        </div>
+
+        <script>
+            let datosCSV3 = []; 
+            let paisesUnicos3 = []; 
+            let chartInstance3 = null; 
+
+            function procesarCSV3(datos) {
+                const filas3 = datos.split('\n');
+                const datosProcesados3 = [];
+
+                filas3.forEach((fila, index) => {
+                    if (index === 0) return;
+                    const columnas3 = fila.split(',');
+                    if (columnas3.length === 4) {
+                        datosProcesados3.push({
+                            pais: columnas3[0],
+                            codigo: columnas3[1],
+                            año: columnas3[2],
+                            consumo: parseFloat(columnas3[3])
+                        });
+                    }
+                });
+                return datosProcesados3;
+            }
+
+            function generarMenuPaises3() {
+                const select = document.getElementById('paisSelect3');
+                select.innerHTML = '<option value="">Selecciona un país</option>';
+
+                paisesUnicos3.forEach(pais => {
+                    const option = document.createElement('option');
+                    option.value = pais;
+                    option.textContent = pais;
+                    select.appendChild(option);
+                });
+            }
+
+            function crearGrafico3(paisSeleccionado3) {
+                const datosPais3 = datosCSV3.filter(d => d.pais === paisSeleccionado3).sort((a, b) => a.año - b.año);
+
+                if (datosPais3.length === 0) {
+                    alert('No hay datos para el país seleccionado');
+                    return;
+                }
+
+                const años3 = datosPais3.map(d => d.año);
+                const consumos3 = datosPais3.map(d => d.consumo);
+
+                if (chartInstance3) {
+                    chartInstance3.destroy();
+                }
+
+                const ctx = document.getElementById('graficoLinea3').getContext('2d');
+                chartInstance3 = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: años3,
+                        datasets: [
+                            {
+                                label: 'Consumo',
+                                data: consumos3,
+                                backgroundColor: 'rgba(255, 159, 64, 0.2)', /* Naranja claro */
+                                borderColor: 'rgba(255, 99, 32, 1)', /* Naranja oscuro */
+                                borderWidth: 2,
+                                pointBackgroundColor: 'rgba(255, 99, 32, 1)', /* Puntos naranjas oscuros */
+                                fill: false
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                                labels: { font: { size: 12 } }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                title: { display: true, text: 'Año' }
+                            },
+                            y: {
+                                title: { display: true, text: 'Consumo (TWh)' },
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            }
+
+            function cargarCSV3() {
+                fetch('graficoLinea.csv')
+                    .then(response => response.text())
+                    .then(datosTexto => {
+                        datosCSV3 = procesarCSV3(datosTexto);
+                        paisesUnicos3 = [...new Set(datosCSV3.map(d => d.pais))];
+                        generarMenuPaises3();
+                    })
+                    .catch(error => {
+                        console.error('Error al cargar el archivo CSV:', error);
+                        alert('Hubo un error al cargar el archivo CSV.');
+                    });
+            }
+
+            function actualizarGrafico3() {
+                const paisSeleccionado3 = document.getElementById('paisSelect3').value;
+                if (paisSeleccionado3) {
+                    crearGrafico3(paisSeleccionado3);
+                }
+            }
+        </script>
+
+        <div class="container">
+            <h2>Gráfico de Torta Datos Globales</h2>
+
+            <!-- Botón para cargar los datos CSV -->
+            <button onclick="cargarCSV4()">Cargar Grafico</button>
+
+            <!-- Menú para seleccionar un país -->
+            <label for="paisSelect4">Selecciona un país:</label>
+            <select id="paisSelect4" onchange="actualizarGrafico4()">
+                <option value="">Selecciona un país</option>
+            </select>
+
+            <!-- Lienzo para el gráfico de torta -->
+            <canvas id="graficoTorta4"></canvas>
+        </div>
+
+        <script>
+            let datosCSV4 = []; 
+            let paisesUnicos4 = []; 
+            let chartInstance4 = null; 
+
+            // Función para procesar el CSV
+            function procesarCSV4(datos) {
+                const filas4 = datos.split('\n');
+                const datosProcesados4 = [];
+
+                filas4.forEach((fila, index) => {
+                    if (index === 0) return; // Ignorar la primera fila (encabezados)
+                    const columnas4 = fila.split(',');
+                    if (columnas4.length === 4) {
+                        datosProcesados4.push({
+                            pais: columnas4[0],
+                            codigo: columnas4[1],
+                            año: columnas4[2],
+                            consumo: parseFloat(columnas4[3])
+                        });
+                    }
+                });
+                return datosProcesados4;
+            }
+
+            // Función para generar el menú de selección de países
+            function generarMenuPaises4() {
+                const select = document.getElementById('paisSelect4');
+                select.innerHTML = '<option value="">Selecciona un país</option>';  // Limpiar opciones previas
+
+                paisesUnicos4.forEach(pais => {
+                    const option = document.createElement('option');
+                    option.value = pais;
+                    option.textContent = pais;
+                    select.appendChild(option);
+                });
+            }
+
+            // Crear el gráfico de torta
+            function crearGrafico4(paisSeleccionado4) {
+                const datosPais4 = datosCSV4.filter(d => d.pais === paisSeleccionado4);
+
+                if (datosPais4.length === 0) {
+                    alert('No hay datos para el país seleccionado');
+                    return;
+                }
+
+                const etiquetas4 = datosPais4.map(d => d.año);
+                const consumos4 = datosPais4.map(d => d.consumo);
+
+                if (chartInstance4) {
+                    chartInstance4.destroy();
+                }
+
+                const ctx = document.getElementById('graficoTorta4').getContext('2d');
+                chartInstance4 = new Chart(ctx, {
+                    type: 'pie', // Usamos gráfico de torta
+                    data: {
+                        labels: etiquetas4,
+                        datasets: [
+                            {
+                                label: 'Consumo (TWh)',
+                                data: consumos4,
+                                backgroundColor: [
+                                    'rgba(75, 192, 192, 0.2)',
+                                    'rgba(255, 99, 132, 0.2)',
+                                    'rgba(255, 159, 64, 0.2)',
+                                    'rgba(153, 102, 255, 0.2)',
+                                    'rgba(255, 205, 86, 0.2)'
+                                ],
+                                borderColor: [
+                                    'rgba(75, 192, 192, 1)',
+                                    'rgba(255, 99, 132, 1)',
+                                    'rgba(255, 159, 64, 1)',
+                                    'rgba(153, 102, 255, 1)',
+                                    'rgba(255, 205, 86, 1)'
+                                ],
+                                borderWidth: 2
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                                labels: { font: { size: 12 } }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Función para cargar los datos CSV desde el archivo
+            function cargarCSV4() {
+                // Usamos fetch para cargar el archivo CSV desde la misma carpeta
+                fetch('graficoTorta.csv')  // Asegúrate de que el archivo 'graficoTorta.csv' esté en la misma carpeta que este archivo HTML
+                    .then(response => response.text())  // Leemos el archivo como texto
+                    .then(datosTexto => {
+                        datosCSV4 = procesarCSV4(datosTexto);  // Procesar los datos CSV
+                        paisesUnicos4 = [...new Set(datosCSV4.map(d => d.pais))];  // Extraer países únicos
+                        generarMenuPaises4();  // Actualizar el menú con los países
+                    })
+                    .catch(error => {
+                        console.error('Error al cargar el archivo CSV:', error);
+                        alert('Hubo un error al cargar el archivo CSV.');
+                    });
+            }
+
+            // Actualizar el gráfico cuando se selecciona un país
+            function actualizarGrafico4() {
+                const paisSeleccionado4 = document.getElementById('paisSelect4').value;
+                if (paisSeleccionado4) {
+                    crearGrafico4(paisSeleccionado4);  // Crear el gráfico para el país seleccionado
+                }
+            }
+        </script>
+    </body>
+</html>

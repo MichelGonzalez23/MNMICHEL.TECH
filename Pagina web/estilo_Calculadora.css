@@ -1,0 +1,243 @@
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body{
+  padding-top: 90px; /* Ajusta según la altura del encabezado */
+  background-color: rgb(195, 195, 195);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  line-height: 1.6;
+}
+
+/* Estilos del encabezado */
+.main-header {
+    position: fixed; /* Fija el encabezado en la parte superior */
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #000000;
+    padding: 15px 30px;
+    height: 90px;
+    box-shadow: 0 4px 8px rgba(95, 64, 64, 0.1);
+    z-index: 1000; /* Asegura que esté por encima del resto del contenido */
+  }
+  
+  .logo img {
+    width: 160px;
+  }
+  
+  .menu ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+    font-size: 50px;
+    font-weight: bold;
+    padding: auto;
+    margin: auto;
+  }
+  
+  .menu a {
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 10px 15px;
+    border-radius: 8px;
+    transition: background 0.3s ease-in-out;
+  }
+  
+  .menu a:hover {
+    background: rgb(90, 177, 199);
+  }
+  
+/* Submenú */
+.submenu {
+  position: relative;
+}
+
+.submenu-content {
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%); /* Centra los submenús */
+  background: rgb(62, 62, 62);
+  box-shadow: 0px 4px 8px rgba(235, 234, 234, 1);
+  border-radius: 5px;
+  min-width: 200px;
+  list-style: none;
+  padding: 10px 0;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.submenu-content li a {
+  color: #ffffff;
+  display: block;
+  padding: 10px 20px;
+  width: 100%;
+  transition: background 0.3s;
+}
+
+.submenu-content li a:hover {
+  background: #a1d3db;
+  color: rgb(255, 255, 255);
+}
+
+/* Mostrar el submenú al hacer hover en la categoría */
+.submenu:hover .submenu-content {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Sección de contenido */
+section {
+  max-width: 900px;
+  margin: 50px auto;
+  background: rgb(241, 239, 239);
+  padding: 50px;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgb(129, 123, 123);
+}
+
+h2 {
+  text-align: center;
+  color: #58a9b9;
+  margin-bottom: 20px;
+}
+
+h3 {
+  color: #5795e6;
+  margin-top: 5px;
+}
+
+p, li {
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+ul, ol {
+  margin: 5px 0;
+  padding-left: 10px;
+}
+
+
+/* Estilos para la calculadora */
+.espacioCalculadora {
+    background: rgba(249, 249, 249, 0.8); /* Fondo semitransparente */;
+    padding: 1.5rem;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    position: relative; /* Necesario para el posicionamiento del fondo */
+    overflow: hidden; /* Asegura que el desenfoque no se salga del contenedor */
+}
+
+/* Fondo desenfocado */
+.espacioCalculadora::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('./Imagenes/FondoCalculadora.jpg'); /* ruta de tu imagen */
+    background-size: cover;
+    background-position: center;
+    filter: blur(1px); /* Ajusta el valor para más o menos desenfoque */
+    z-index: -1; /* Coloca el fondo detrás del contenido */
+}
+
+/* Resto de los estilos */
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #444;
+    font-weight: bold;
+}
+
+input[type="number"] {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+input[type="number"]:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+button {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+button:hover {
+    background: #0056b3;
+    transform: translateY(-2px);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+/* Estilos para los resultados */
+.result {
+    background: #e9f5ff;
+    padding: 1rem;
+    border-radius: 5px;
+    border: 1px solid #b3d7ff;
+    margin-top: 1rem;
+}
+
+.result p {
+    margin: 0.5rem 0;
+    color: #333;
+}
+
+.result span {
+    font-weight: bold;
+    color: #007bff;
+}
+
+/* Estilos responsivos */
+@media (max-width: 600px) {
+    section {
+        padding: 1rem;
+    }
+
+    h1 {
+        font-size: 1.75rem;
+    }
+
+    h3 {
+        font-size: 1.25rem;
+    }
+
+    button {
+        padding: 0.5rem 1rem;
+    }
+}
