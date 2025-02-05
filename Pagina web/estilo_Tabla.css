@@ -1,5 +1,4 @@
-
-*{
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -8,62 +7,55 @@
 
 body{
   padding-top: 90px; /* Ajusta según la altura del encabezado */
-  background-color: rgb(195, 195, 195);
+  background-color: rgb(255, 255, 255);
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;
   line-height: 1.6;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  margin: 0;
 }
 
 /* Estilos del encabezado */
 .main-header {
-    position: fixed; /* Fija el encabezado en la parte superior */
-    top: 0;
-    left: 0;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: #000000;
-    padding: 15px 30px;
-    height: 90px;
-    box-shadow: 0 4px 8px rgba(95, 64, 64, 0.1);
-    z-index: 1000; /* Asegura que esté por encima del resto del contenido */
-  }
-  
-  .logo img {
-    width: 160px;
-  }
-  
-  .menu ul {
-    list-style: none;
-    display: flex;
-    gap: 20px;
-    font-size: 50px;
-    font-weight: bold;
-    padding: auto;
-    margin: auto;
-  }
-  
-  .menu a {
-    color: #ffffff;
-    text-decoration: none;
-    font-weight: 600;
-    padding: 10px 15px;
-    border-radius: 8px;
-    transition: background 0.3s ease-in-out;
-  }
-  
-  .menu a:hover {
-    background: rgb(90, 177, 199);
-  }
-  
+  position: fixed; /* Fija el encabezado en la parte superior */
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #555555;
+  padding: 15px 30px;
+  height:100px;
+  z-index: 1000; /* Asegura que esté por encima del resto del contenido */
+}
+
+.logo img {
+  width: 160px;
+}
+
+.menu ul {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+  font-size: 50px;
+  font-weight: bold;
+  padding: auto;
+  margin: auto;
+}
+
+.menu a {
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 600;
+  padding: 10px 15px;
+  border-radius: 8px;
+  transition: background 0.3s ease-in-out;
+}
+
+.menu a:hover {
+  background: rgb(91, 168, 188);
+}
+
 /* Submenú */
 .submenu {
   position: relative;
@@ -77,8 +69,8 @@ body{
   top: 100%;
   left: 50%;
   transform: translateX(-50%); /* Centra los submenús */
-  background: rgb(62, 62, 62);
-  box-shadow: 0px 4px 8px rgba(235, 234, 234, 1);
+  background: rgb(169, 163, 163);
+  box-shadow: 0px 4px 8px rgb(91, 168, 188);
   border-radius: 5px;
   min-width: 200px;
   list-style: none;
@@ -88,6 +80,7 @@ body{
   flex-direction: column;
   align-items: center;
 }
+
 
 .submenu-content li a {
   color: #ffffff;
@@ -112,15 +105,15 @@ body{
 section {
   max-width: 900px;
   margin: 50px auto;
-  background: rgb(241, 239, 239);
+  background: rgb(234, 234, 234);
   padding: 50px;
   border-radius: 15px;
-  box-shadow: 0 4px 10px rgb(129, 123, 123);
+  /*box-shadow: 0 4px 10px rgb(255, 255, 255);*/
 }
 
 h2 {
   text-align: center;
-  color: #58a9b9;
+  color: #53bfc3;
   margin-bottom: 20px;
 }
 
@@ -139,74 +132,75 @@ ul, ol {
   padding-left: 10px;
 }
 
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 20px auto;
+  border-radius: 10px;
+}
+
 body {
-    font-family: Arial, sans-serif;
-    background-color: #FFF9E6;
-    color: #333;
-    margin: 10px;
-    padding: 10px;
+  font-family: Arial, sans-serif;
+  background-color: #FFF9E6;
+  color: #333;
+  margin: 10px;
+  padding: 10px;
 }
 
 h2 {
-    text-align: center;
-    color: #FFB300;
+  text-align: center;
+  color: #FFB300;
 }
 
 label {
-    margin: 5px 0;
-    display: block;
-    color: #FFA726;
-    font-weight: bold;
+  margin: 5px 0;
+  display: block;
+  color: #FFA726;
+  font-weight: bold;
 }
 
 select, input[type="number"], button {
-    width: 100%;
-    padding: 8px;
-    margin: 5px 0 10px;
-    border: 1px solid #FFD54F;
-    border-radius: 5px;
-    background-color: #FFF3CD;
-    color: #6D4C41;
+  width: 100%;
+  padding: 8px;
+  margin: 5px 0 10px;
+  border: 1px solid #FFD54F;
+  border-radius: 5px;
+  background-color: #FFF3CD;
+  color: #6D4C41;
 }
 
 button {
-    width: 50%; /* Reduce el ancho del botón */
-    padding: 6px; /* Reduce el relleno para hacerlo más pequeño */
-    margin: 10px auto; /* Centra el botón horizontalmente */
-    display: block; /* Asegura que el botón se comporte como un bloque para centrarlo */
-    background-color: #FFC107;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+  width: 50%; /* Reduce el ancho del botón */
+  padding: 6px; /* Reduce el relleno para hacerlo más pequeño */
+  margin: 10px auto; /* Centra el botón horizontalmente */
+  display: block; /* Asegura que el botón se comporte como un bloque para centrarlo */
+  background-color: #FFC107;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 button:hover {
-    background-color: #FFB300;
+  background-color: #FFB300;
 }
 
 .tabla-container {
   width: 60%;
   max-height: 250px;
   overflow-y: auto;
-  margin: 30px auto; /* Esto ya centra horizontalmente */
-  display: flex;
-  justify-content: center; /* Centra horizontalmente */
-  align-items: center; /* Centra verticalmente */
-  flex-direction: column; /* Asegura que el contenido se acomode en columna */
+  margin: 10px auto;
   border-radius: 10px;
   border: 1px solid #FFD54F;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   background-color: #FFECB3;
-  padding: 15px;
 }
-
 
 table {
   width: 100%;
   border-collapse: collapse;
-  text-align: center;
 }
 
 th, td {
@@ -223,3 +217,13 @@ th {
 tr:nth-child(even) {
   background-color: #FFF8E1;
 }
+
+@media (max-width: 768px) {
+  select, input[type="number"], button {
+      width: 95%;
+  }
+  .tabla-container {
+      width: 90%;
+  }
+}
+

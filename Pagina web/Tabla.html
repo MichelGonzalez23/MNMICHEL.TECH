@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="./estilo_Tabla.css">
 </head>
 <body>
+    </div>
     <header class="main-header">
         <div class="logo">
             <a href="http://127.0.0.1:5500/Pagina%20web/index.html"><img src="./Imagenes/Logo SOLTECH.png" alt="Logo"></a>
@@ -53,7 +54,7 @@
     <label for="anoFin">Año de fin:</label>
     <input type="number" id="anoFin" min="2000" onchange="filtrarDatos()" placeholder="Año de fin">
 
-    <button onclick="cargarArchivo('Datos para la tabla/datosTabla.csv')">Cargar Archivo</button>
+    <button onclick="cargarArchivo('datosTabla.csv')">Cargar Archivo</button>
 
     <div class="tabla-container">
         <table id="tabla">
@@ -136,8 +137,5 @@
             cargarDatos(datosFiltrados);
         }
     </script>
-    
-        
-
 </body>
 </html>

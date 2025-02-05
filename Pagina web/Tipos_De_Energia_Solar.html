@@ -7,6 +7,12 @@
     <link rel="stylesheet" href="./estilo.css">
 </head>
 <body>
+    <div class="video-container">
+        <video autoplay loop muted playsinline>
+            <source src="Imagenes/Azul Celeste y Rosa Atardecer Cielo y Mar Fondo de Video.mp4" type="video/mp4">
+            Tu navegador no soporta videos en HTML5.
+        </video>
+    </div>
     <header class="main-header">
         <div class="logo">
             <a href="http://127.0.0.1:5500/Pagina%20web/index.html"><img src="./Imagenes/Logo SOLTECH.png" alt="Logo"></a>
@@ -52,7 +58,9 @@
                         <li>Uso o almacenamiento: La electricidad generada puede consumirse en el momento o almacenarse en baterías para su uso posterior.</li><br>
                     </ol>
                 </li><br>
-                <img src="./Imagenes/Energía fotovoltaica.jpg" width="500" height="400" ><br><br>
+                <div style="text-align: center;">
+                    <video src="./Imagenes/Eolica.mp4" autoplay loop controls width="500" height="400"></video>
+                </div>
                 
                 <li><h3>Energía solar térmica</h3><br>
                     <p>
@@ -72,7 +80,9 @@
                         <li>Alta temperatura (más de 500 °C): En plantas termosolares, donde el calor se concentra con espejos para generar electricidad.</li>
                     </ul>    
                 </li><br>
-                <img src="./Imagenes/Energía térmica.jpeg" width="500" height="400" ><br><br>
+                <div style="text-align: center;">
+                    <video src="./Imagenes/termica.mp4" autoplay loop controls width="500" height="400"></video>
+                </div>
 
                 <li><h3>Energía solar pasiva</h3><br>
                     <p>La energía solar pasiva es el aprovechamiento de la radiación solar sin el uso de dispositivos mecánicos o eléctricos. Se basa en el diseño arquitectónico y la selección de materiales para maximizar la captación, almacenamiento y distribución del calor del Sol de manera natural.</p><br>
@@ -85,7 +95,9 @@
                         <li>Protección solar en verano: Elementos como aleros, pérgolas o vegetación ayudan a evitar el sobrecalentamiento en estaciones cálidas.</li>
                     </ol>
                 </li><br>
-                <img src="./Imagenes/Energía pasiva.jpg" width="500" height="400" ><br><br><br>
+                <div style="text-align: center;">
+                    <video src="./Imagenes/pasiva.mp4" autoplay loop controls width="500" height="400"></video>
+                </div>
 
                 <li><h3>Energia solar hibrida</h3><br>
                     <p>La energía solar híbrida es un sistema que combina la energía solar con otra fuente de energía (como eólica, diésel, gas o baterías) para garantizar un suministro eléctrico constante y eficiente.</p><br>
@@ -111,10 +123,15 @@
                                 <li>✔ Menor impacto ambiental, al depender menos de fuentes contaminantes.</li>
                             </ul><br>
                     
-                    <img src="./Imagenes/Energia-solar-hibrida.jpg" width="500" height="400" >
+                    <div style="text-align: center;">
+                        <video src="./Imagenes/hibrida.mp4" autoplay loop controls width="500" height="400"></video>
+                    </div>
 
                 </li>
             </ul>
         </section>
     </body>
+    <footer>
+        <p>&copy: SOLTECH. Todos los derechos reservados</p>
+    </footer>  
 </html>
